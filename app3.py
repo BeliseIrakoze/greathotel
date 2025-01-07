@@ -235,7 +235,7 @@ def home_page():
     available_services = get_available_services(start_date, end_date, category)
     
     if available_services:
-        st.subheader("Available Rooms")
+        st.subheader("Available Services")
         
         st.markdown("""
         <style>
