@@ -14,6 +14,10 @@ from database import get_engine,get_session
 import shutil
 from pathlib import Path
 import json
+# Set the app name and favicon
+app_name = "Hotel Booking System"
+favicon_emoji = "🏨"
+st.set_page_config(page_title=app_name, page_icon=favicon_emoji, layout="wide")
 
 # Get the project root directory
 project_root = os.path.dirname(os.path.abspath(__file__))
@@ -24,10 +28,6 @@ os.makedirs(IMAGES_DIR, exist_ok=True)
 session=get_session()
 
 
-# Set the app name and favicon
-app_name = "Hotel Booking System"
-favicon_emoji = "🏨"
-st.set_page_config(page_title=app_name, page_icon=favicon_emoji, layout="wide")
 
 def save_uploaded_image(uploaded_file, service_id, is_cover=False):
     if uploaded_file is None:
