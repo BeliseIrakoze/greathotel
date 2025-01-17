@@ -8,8 +8,9 @@ import pandas as pd
 from datetime import datetime, date, timedelta
 from sqlalchemy import create_engine, or_, select, func
 from sqlalchemy.orm import sessionmaker
-from backend.models import Base, User, Service, ServiceImage, Booking, Package, PackageBooking
+from models import Base, User, Service, ServiceImage, Booking, Package, PackageBooking
 import os
+from database import get_engine,get_session
 import shutil
 from pathlib import Path
 import json
@@ -20,12 +21,8 @@ project_root = os.path.dirname(os.path.abspath(__file__))
 # Create images directory if it doesn't exist
 IMAGES_DIR = os.path.join(project_root, "static", "images")
 os.makedirs(IMAGES_DIR, exist_ok=True)
+session=get_session()
 
-# Database connection
-engine = create_engine(f"sqlite:///{os.path.join(project_root, 'hotel_booking.db')}")
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
 
 # Set the app name and favicon
 app_name = "Hotel Booking System"
@@ -221,7 +218,7 @@ def display_image_safely(image_path, use_container_width=True):
         st.info("Image not available")
 
 def home_page():
-    st.title("Welcome to Great  Hotel")
+    st.title("Welcome to Our Hotel(to be changed) ")
     st.write("Book your perfect stay with us!")
 
     col1, col2 = st.columns(2)
@@ -235,7 +232,7 @@ def home_page():
     available_services = get_available_services(start_date, end_date, category)
     
     if available_services:
-        st.subheader("Available Services")
+        st.subheader("Available Rooms")
         
         st.markdown("""
         <style>
