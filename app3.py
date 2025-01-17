@@ -197,9 +197,11 @@ def login():
                     )
                     session.add(user)
                     session.commit()
+                    session.rollback()
                     st.success("Account created successfully! Please login.")
                 except Exception as e:
-                    st.error(f"Error creating account: {str(e)}")
+                    st.error(f"Error creating account: User already exist")
+                    session.rollback()
 
 def logout():
     st.session_state.authentication_status = None
@@ -219,7 +221,7 @@ def display_image_safely(image_path, use_container_width=True):
 
 def home_page():
     st.title("Welcome to Great hotel Kiyovu ")
-    st.write("Book your perfect stay with us!")
+    st.write("Book your perfect stay with us! BBICT")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -324,7 +326,7 @@ def service_management_page():
             col1, col2 = st.columns(2)
             with col1:
                 name = st.text_input("Service Name")
-                category = st.selectbox("Category", ["Single", "Double", "Suite", "Conference", "Add-on"])
+                category = st.selectbox("Category", ["Single", "Double","Spa", "Suite", "Conference", "Add-on"])
                 price_rwf = st.number_input("Price (RWF)", min_value=0, step=1000)
                 size = st.text_input("Size (e.g., 18m²)")
                 max_capacity = st.number_input("Max Capacity", min_value=1, value=1)
@@ -502,7 +504,7 @@ def package_management_page():
             col1, col2 = st.columns(2)
             with col1:
                 name = st.text_input("Package Name")
-                category = st.selectbox("Category", ["Wedding", "Conference"])
+                category = st.selectbox("Category", ["Wedding", "Conference","Sport"])
                 base_price = st.number_input("Base Price (RWF)", min_value=0, step=1000)
                 duration_days = st.number_input("Duration (Days)", min_value=1, value=1)
                 max_guests = st.number_input("Max Guests", min_value=1, value=1)
@@ -770,9 +772,12 @@ def booking_history_page():
                 with col2:
                     if st.session_state.role == "Admin":
                         user = booking.user
-                        st.write(f"Booked by: {user.full_name}")
-                        st.write(f"Phone: {user.phone_number}")
-                        st.write(f"Age: {user.age}")
+                        if user:
+                            st.write(f"Booked by: {user.full_name}")
+                            st.write(f"Phone: {user.phone_number}")
+                            st.write(f"Age: {user.age}")
+                        else:
+                            st.write("Booked by: Unknown")
                 
                 if booking.special_requests:
                     st.write("Special Requests:", booking.special_requests)
@@ -827,9 +832,12 @@ def booking_history_page():
                 with col2:
                     if st.session_state.role == "Admin":
                         user = booking.user
-                        st.write(f"Booked by: {user.full_name}")
-                        st.write(f"Phone: {user.phone_number}")
-                        st.write(f"Age: {user.age}")
+                        if user:
+                            st.write(f"Booked by: {user.full_name}")
+                            st.write(f"Phone: {user.phone_number}")
+                            st.write(f"Age: {user.age}")
+                        else:
+                            st.write("Booked by: Unknown")
                     
                     # Show selected services
                     selected_services = json.loads(booking.selected_services)
