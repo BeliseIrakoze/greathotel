@@ -221,7 +221,7 @@ def display_image_safely(image_path, use_container_width=True):
         st.info("Image not available")
 
 def home_page():
-    st.title("Welcome to Our Hotel")
+    st.title("Welcome to Great  Hotel")
     st.write("Book your perfect stay with us!")
 
     col1, col2 = st.columns(2)
